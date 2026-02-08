@@ -4,8 +4,7 @@ const message = document.getElementById("message");
 let startTime = 0;
 let state = "ready"; // ready / wait / tap
 
-btn.addEventListener("click", handleTap);
-btn.addEventListener("touchstart", handleTap);
+btn.addEventListener("pointerdown", handleTap);
 
 function handleTap() {
   if (state === "ready") {
