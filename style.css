@@ -1,5 +1,23 @@
-#start {
-  white-space: pre-line;
+body {
   text-align: center;
+  font-family: sans-serif;
+  background: #111;
+  color: white;
 }
 
+h1 {
+  margin-top: 40px;
+}
+
+#message {
+  font-size: 24px;
+  margin: 20px;
+}
+
+button {
+  font-size: 40px;
+  padding: 20px 40px;
+  border: none;
+  border-radius: 10px;
+  background: #00ff99;
+}
