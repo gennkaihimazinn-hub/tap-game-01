@@ -1,46 +1,35 @@
-const startEl = document.getElementById("start");
+const btn = document.getElementById("tapBtn");
+const message = document.getElementById("message");
 
 let startTime = 0;
-let timeoutId = null;
-let state = "ready"; 
-// ready → waiting → tap → result
+let waiting = false;
 
 function startGame() {
-  startEl.textContent = "待て…";
-  state = "waiting";
+  if (waiting) return;
 
-  const waitTime = Math.random() * 4000 + 1000; // 1〜5秒
+  message.textContent = "WAIT...";
+  waiting = true;
 
-  timeoutId = setTimeout(() => {
-    startTime = performance.now();
-    startEl.textContent = "TAP!";
-    state = "tap";
+  const waitTime = Math.random() * 3000 + 1000;
+
+  setTimeout(() => {
+    message.textContent = "TAP!";
+    startTime = Date.now();
   }, waitTime);
 }
 
-function handleTap() {
-  if (state === "ready") {
-    startGame();
-    return;
-  }
+function tap() {
+  if (!waiting || startTime === 0) return;
 
-  if (state === "waiting") {
-    clearTimeout(timeoutId);
-    startEl.textContent = "早すぎ！\nタップして再挑戦";
-    state = "ready";
-    return;
-  }
+  const reaction = Date.now() - startTime;
+  message.textContent = `反応速度：${reaction} ms`;
 
-  if (state === "tap") {
-    const reaction = Math.floor(performance.now() - startTime);
-    startEl.textContent = `反応時間\n${reaction} ms\n\nタップして再挑戦`;
-    state = "ready";
-  }
+  waiting = false;
+  startTime = 0;
 }
 
-startEl.addEventListener("click", handleTap);
-startEl.addEventListener("touchstart", (e) => {
-  e.preventDefault();
-  handleTap();
-});
+btn.addEventListener("click", startGame);
+btn.addEventListener("touchstart", startGame);
 
+btn.addEventListener("click", tap);
+btn.addEventListener("touchstart", tap);
